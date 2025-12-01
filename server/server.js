@@ -2,9 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import tmdbRoutes from "./src/routes/tmdb.routes.js";
+import connectDB from "./src/config/database.js";
 
 dotenv.config();
 const app = express();
+
+// Connexion à MongoDB
+connectDB();
 
 // Middlewares
 app.use(
@@ -19,5 +23,5 @@ app.use("/api/tmdb", tmdbRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Serveur en écoute sur le port ${PORT}`);
+  console.log(`🚀 Serveur démarré sur le port ${PORT}`);
 });
