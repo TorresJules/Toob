@@ -1,5 +1,33 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# Production builds
+dist/
+dist-ssr/
+build/
+**/dist/
+**/build/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+**/.env
+**/.env.local
+
+# MongoDB local data
+mongodb/
+mongodb/data/
+**/mongodb/data/
+*.lock
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,26 +35,37 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-**/node_modules/
-**/.env
-**/dist/
-**/build/
-*.log
+# Testing
+coverage/
+*.lcov
+.nyc_output
+
+# OS files
 .DS_Store
-.env.local
-.venv
+Thumbs.db
+*.swp
+*.swo
+*~
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+!.vscode/settings.json
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+
+# Local development
+*.local
+
+# Cursor
+.cursor/
