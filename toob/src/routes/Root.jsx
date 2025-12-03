@@ -1,36 +1,81 @@
 // routes/Root.jsx
 import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 function Root() {
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  // Fonction de déconnexion
+  const handleLogout = () => {
+    logout();
+    navigate("/"); // Redirige vers l'accueil
+  };
+
   return (
     <div className="app-container">
-      <header>
-        <nav>
-          <ul>
+      <header className="navbar bg-base-100 shadow-lg px-4">
+        {/* Logo / Titre */}
+        <div className="flex-1">
+          <NavLink to="/" className="btn btn-ghost text-xl">
+            🎬 Toob
+          </NavLink>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-none">
+          <ul className="menu menu-horizontal px-1 gap-2">
             <li>
-              <NavLink to="/">Accueil</NavLink>
+              <NavLink to="/" className="btn btn-ghost">
+                Accueil
+              </NavLink>
             </li>
-            <li>
-              <NavLink to="/about">À propos</NavLink>
-            </li>
-            <li>
-              <NavLink to="/products">Produits</NavLink>
-            </li>
-            <li>
-              <NavLink to="/contact">Contact</NavLink>
-            </li>
+
+            {/* Affichage conditionnel selon l'état de connexion */}
+            {isAuthenticated ? (
+              // Si connecté
+              <>
+                <li class="flex">
+                  <img class="w-20" src={user?.avatar} alt="Avatar user" />
+                  <span className="text-primary font-semibold">
+                    {user?.username}
+                  </span>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-outline btn-error"
+                  >
+                    Déconnexion
+                  </button>
+                </li>
+              </>
+            ) : (
+              // Si non connecté
+              <>
+                <li>
+                  <NavLink to="/login" className="btn btn-ghost">
+                    Connexion
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/register" className="btn btn-primary">
+                    Inscription
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </header>
 
-      <main>
-        {/* Ici seront rendus les composants enfants */}
+      <main className="container mx-auto p-4">
         <Outlet />
       </main>
 
-      <footer>
-        <p>© {new Date().getFullYear()} - Mon Application</p>
+      <footer className="footer footer-center p-4 bg-base-300 text-base-content">
+        <p>© {new Date().getFullYear()} - Toob 🎬</p>
       </footer>
     </div>
   );

@@ -3,6 +3,8 @@ import HomePage from "./routes/HomePage";
 import Root from "./routes/Root";
 import ErrorPage from "./routes/ErrorPage";
 import MovieDetail from "./routes/MovieDetail";
+import RegisterPage from "./routes/RegisterPage";
+import LoginPage from "./routes/LoginPage";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +24,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <div>Register</div>,
+    element: <RegisterPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 
