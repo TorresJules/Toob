@@ -116,6 +116,15 @@ const SearchBar = () => {
               {movie.title} ({movie.release_date?.split("-")[0]})
             </div>
           ))}
+          <button
+            className="btn btn-ghost w-full"
+            onClick={() => {
+              navigate(`/search?query=${encodeURIComponent(query)}`);
+              setShowDropdown(false);
+            }}
+          >
+            Voir tous les résultats
+          </button>
         </div>
       )}
     </div>

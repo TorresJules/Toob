@@ -6,6 +6,7 @@ import MovieDetail from "./routes/MovieDetail";
 import RegisterPage from "./routes/RegisterPage";
 import LoginPage from "./routes/LoginPage";
 import SearchPage from "./routes/SearchPage";
+import FavoritesPage from "./routes/FavoritesPage";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/search",
     element: <SearchPage />,
+  },
+  {
+    path: "/favorites",
+    element: <FavoritesPage />,
   },
 ]);
 

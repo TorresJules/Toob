@@ -68,6 +68,7 @@ export const getMovieById = async (req, res) => {
 
 export const getMoviesByName = async (req, res) => {
   const { name } = req.params;
+  const { page = 1 } = req.query;
 
   if (!name) {
     return res.status(400).json({
@@ -82,12 +83,15 @@ export const getMoviesByName = async (req, res) => {
         api_key: process.env.TMDB_API_KEY,
         language: "fr-FR",
         query: name,
+        page: page,
       },
     });
 
     res.json({
       success: true,
       results: moviesResponse.data.results,
+      page: moviesResponse.data.page,
+      total_pages: moviesResponse.data.total_pages,
       total_results: moviesResponse.data.total_results,
     });
   } catch (error) {
