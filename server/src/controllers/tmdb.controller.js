@@ -65,3 +65,44 @@ export const getMovieById = async (req, res) => {
     });
   }
 };
+
+export const getMoviesByName = async (req, res) => {
+  const { name } = req.params;
+
+  if (!name) {
+    return res.status(400).json({
+      success: false,
+      message: "Nom du film manquant",
+    });
+  }
+
+  try {
+    const moviesResponse = await axios.get(`${TMDB_API_URL}/search/movie`, {
+      params: {
+        api_key: process.env.TMDB_API_KEY,
+        language: "fr-FR",
+        query: name,
+      },
+    });
+
+    res.json({
+      success: true,
+      results: moviesResponse.data.results,
+      total_results: moviesResponse.data.total_results,
+    });
+  } catch (error) {
+    console.error(`Error fetching movies with name ${name}:`, error);
+
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({
+        success: false,
+        message: "Aucun film trouvé",
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: "Erreur de récupération des films",
+    });
+  }
+};

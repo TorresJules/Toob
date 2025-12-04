@@ -5,6 +5,7 @@ import ErrorPage from "./routes/ErrorPage";
 import MovieDetail from "./routes/MovieDetail";
 import RegisterPage from "./routes/RegisterPage";
 import LoginPage from "./routes/LoginPage";
+import SearchPage from "./routes/SearchPage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/search",
+    element: <SearchPage />,
   },
 ]);
 

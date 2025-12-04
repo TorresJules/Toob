@@ -2,6 +2,7 @@
 import React from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import SearchBar from "../components/SearchBar";
 
 function Root() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -26,6 +27,9 @@ function Root() {
         {/* Navigation */}
         <nav className="flex-none">
           <ul className="menu menu-horizontal px-1 gap-2">
+            <li className="!bg-transparent !active:bg-transparent">
+              <SearchBar />
+            </li>
             <li>
               <NavLink to="/" className="btn btn-ghost">
                 Accueil
@@ -36,10 +40,13 @@ function Root() {
             {isAuthenticated ? (
               // Si connecté
               <>
-                <li class="flex">
-                  <img class="w-20" src={user?.avatar} alt="Avatar user" />
-                  <span className="text-primary font-semibold">
-                    {user?.username}
+                <li>
+                  <span>
+                    <img
+                      className="w-10 rounded-full"
+                      src={user?.avatar}
+                      alt="Avatar user"
+                    />
                   </span>
                 </li>
                 <li>
