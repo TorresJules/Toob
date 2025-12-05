@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import MovieCard from "../components/MovieCard";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
+import API_URL from "../config/api";
 
 const FavoritesPage = () => {
   const { token, isAuthenticated } = useAuth();
@@ -19,7 +20,7 @@ const FavoritesPage = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:4000/api/user-movies/favorites/details",
+          `${API_URL}/api/user-movies/favorites/details`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

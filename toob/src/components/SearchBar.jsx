@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../config/api";
 
 const SearchBar = ({ isExpanded, onExpand, onCollapse }) => {
   const navigate = useNavigate();
@@ -23,9 +24,7 @@ const SearchBar = ({ isExpanded, onExpand, onCollapse }) => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:4000/api/tmdb/search/${encodeURIComponent(
-            debouncedQuery
-          )}`
+          `${API_URL}/api/tmdb/search/${encodeURIComponent(debouncedQuery)}`
         );
         const data = await response.json();
 

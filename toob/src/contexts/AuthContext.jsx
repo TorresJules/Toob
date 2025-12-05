@@ -1,7 +1,8 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import API_BASE_URL from "../config/api";
 
 // URL de base de l'API
-const API_URL = "http://localhost:4000/api/auth";
+const API_URL = `${API_BASE_URL}/api/auth`;
 
 // 1. Créer le contexte
 const AuthContext = createContext();

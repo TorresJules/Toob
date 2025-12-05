@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import MovieCard from "../components/MovieCard";
+import API_URL from "../config/api";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
@@ -21,9 +22,7 @@ const SearchPage = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:4000/api/tmdb/search/${encodeURIComponent(
-            query
-          )}?page=${page}`
+          `${API_URL}/api/tmdb/search/${encodeURIComponent(query)}?page=${page}`
         );
         const data = await response.json();
         if (data.success) {

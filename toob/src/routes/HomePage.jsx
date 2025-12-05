@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import MovieCard from "../components/MovieCard";
 import Loader from "../components/Loader";
+import API_URL from "../config/api";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
@@ -13,7 +14,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await fetch("/api/tmdb/popular");
+        const response = await fetch(`${API_URL}/api/tmdb/popular`);
         if (!response.ok) throw new Error("Erreur de chargement");
 
         const { results } = await response.json();

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
 import Loader from "../components/Loader";
+import API_URL from "../config/api";
 
 const MovieDetail = ({ movieId: propMovieId }) => {
   // Utiliser la prop si fournie, sinon useParams (pour compatibilité)
@@ -20,7 +21,9 @@ const MovieDetail = ({ movieId: propMovieId }) => {
     const fetchMovieDetails = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/tmdb/movies/${movieId}`);
+        const response = await axios.get(
+          `${API_URL}/api/tmdb/movies/${movieId}`
+        );
 
         if (response.data.success) {
           setMovie(response.data.movie);
