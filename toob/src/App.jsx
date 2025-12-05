@@ -7,6 +7,7 @@ import RegisterPage from "./routes/RegisterPage";
 import LoginPage from "./routes/LoginPage";
 import SearchPage from "./routes/SearchPage";
 import FavoritesPage from "./routes/FavoritesPage";
+import ProfilePage from "./routes/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/favorites",
     element: <FavoritesPage />,
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage />,
   },
 ]);
 
