@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: "movies/:id",
-        element: <MovieDetail />,
+        element: <HomePage />, // HomePage reste visible, MovieDetail est un overlay géré par Root
       },
     ],
   },

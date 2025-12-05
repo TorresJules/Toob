@@ -17,12 +17,6 @@ const MovieCard = ({ movie }) => {
             loading="lazy"
           />
         </figure>
-        <div className="card-body p-4">
-          <h3 className="card-title text-sm line-clamp-2">{movie.title}</h3>
-          <div className="badge badge-accent">
-            {movie.release_date?.split("-")[0]}
-          </div>
-        </div>
       </Link>
     </div>
   );

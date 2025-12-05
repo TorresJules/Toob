@@ -48,7 +48,7 @@ const FavoritesPage = () => {
   if (!isAuthenticated) {
     return (
       <div className="container mx-auto p-4 text-center">
-        <h1 className="text-3xl font-bold mb-4">❤️ Mes Favoris</h1>
+        <h1 className="text-3xl font-bold mb-4">Mes Favoris</h1>
         <p className="mb-4">Connectez-vous pour voir vos favoris.</p>
         <Link to="/login" className="btn btn-primary">
           Se connecter
@@ -59,7 +59,7 @@ const FavoritesPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">❤️ Mes Favoris</h1>
+      <h1 className="text-3xl font-bold mb-6">Mes Favoris</h1>
 
       {loading ? (
         <Loader />
