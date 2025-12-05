@@ -94,6 +94,23 @@ const SearchBar = ({ isExpanded, onExpand, onCollapse }) => {
     setQuery(e.target.value);
   };
 
+  // Fermer la searchbar quand l'input perd le focus (clavier fermé sur mobile)
+  const handleBlur = (e) => {
+    // Petit délai pour permettre le clic sur un résultat du dropdown
+    setTimeout(() => {
+      // Vérifier si le focus est toujours dans la searchbar
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(document.activeElement)
+      ) {
+        setShowDropdown(false);
+        if (onCollapse) {
+          onCollapse();
+        }
+      }
+    }, 150);
+  };
+
   const handleFocus = () => {
     if (results.length > 0) {
       setShowDropdown(true);
@@ -148,6 +165,7 @@ const SearchBar = ({ isExpanded, onExpand, onCollapse }) => {
             ref={inputRef}
             value={query}
             onFocus={handleFocus}
+            onBlur={handleBlur}
             onChange={onChangeHandler}
             type="text"
             className="!bg-transparent focus:!bg-transparent w-full min-w-0"

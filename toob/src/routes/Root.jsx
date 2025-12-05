@@ -254,7 +254,7 @@ function Root() {
 
           {/* Profil avec Avatar */}
           <NavLink
-            to="/profile"
+            to={isAuthenticated ? "/profile" : "/login"}
             className={({ isActive }) =>
               `flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
                 isActive
@@ -285,7 +285,9 @@ function Root() {
                 />
               </svg>
             )}
-            <span className="text-xs">Profil</span>
+            <span className="text-xs">
+              {isAuthenticated ? "Profil" : "Connexion"}
+            </span>
           </NavLink>
         </div>
       </nav>

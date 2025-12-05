@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
 import Loader from "../components/Loader";
 import API_URL from "../config/api";
+import { useAuth } from "../contexts/AuthContext";
 
 const MovieDetail = ({ movieId: propMovieId }) => {
   // Utiliser la prop si fournie, sinon useParams (pour compatibilité)
   const { id: paramId } = useParams();
   const movieId = propMovieId || paramId;
+  const navigate = useNavigate();
+  const { isAuthenticated, token } = useAuth();
 
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,6 +19,10 @@ const MovieDetail = ({ movieId: propMovieId }) => {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const containerRef = useRef(null);
+
+  // États pour les favoris
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [loadingFavorite, setLoadingFavorite] = useState(false);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -41,6 +48,79 @@ const MovieDetail = ({ movieId: propMovieId }) => {
       fetchMovieDetails();
     }
   }, [movieId]);
+
+  // Vérifier si le film est en favoris
+  useEffect(() => {
+    const checkFavorite = async () => {
+      if (!isAuthenticated || !token || !movieId) return;
+
+      try {
+        const response = await fetch(`${API_URL}/api/user-movies/favorites`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          // Vérifier si le movieId est dans la liste des favoris
+          // favoriteMovies est un tableau d'objets { movieId, addedAt }
+          const favoriteIds = data.favoriteMovies.map((fav) => fav.movieId);
+          setIsFavorite(favoriteIds.includes(Number(movieId)));
+        }
+      } catch (error) {
+        console.error("Erreur vérification favoris:", error);
+      }
+    };
+
+    checkFavorite();
+  }, [isAuthenticated, token, movieId]);
+
+  // Toggle favoris
+  const handleToggleFavorite = async () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+
+    setLoadingFavorite(true);
+
+    try {
+      if (isFavorite) {
+        // Retirer des favoris
+        const response = await fetch(`${API_URL}/api/user-movies/favorites`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ movieId: Number(movieId) }),
+        });
+        const data = await response.json();
+        if (data.success) {
+          setIsFavorite(false);
+        }
+      } else {
+        // Ajouter aux favoris
+        const response = await fetch(`${API_URL}/api/user-movies/favorites`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ movieId: Number(movieId) }),
+        });
+        const data = await response.json();
+        if (data.success) {
+          setIsFavorite(true);
+        }
+      }
+    } catch (error) {
+      console.error("Erreur toggle favoris:", error);
+    } finally {
+      setLoadingFavorite(false);
+    }
+  };
 
   // Gestion du scroll pour hide/show header
   const handleScroll = () => {
@@ -106,6 +186,35 @@ const MovieDetail = ({ movieId: propMovieId }) => {
                 alt={movie.title}
                 className="w-full rounded-lg shadow-lg"
               />
+
+              {/* Bouton Favoris */}
+              <button
+                onClick={handleToggleFavorite}
+                disabled={loadingFavorite}
+                className={`btn w-full mt-4 gap-2 ${
+                  isFavorite ? "btn-secondary" : "btn-primary"
+                }`}
+              >
+                {loadingFavorite ? (
+                  <span className="loading loading-spinner loading-sm"></span>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill={isFavorite ? "currentColor" : "none"}
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                )}
+                {isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
+              </button>
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {movie.genres.map((genre) => (
